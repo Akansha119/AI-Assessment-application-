@@ -28,5 +28,10 @@ class UserUpdate(BaseModel):
     is_active: Optional[bool] = None
 
 
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
+
 class UserWithRoles(UserOut):
     roles: List[str] = []

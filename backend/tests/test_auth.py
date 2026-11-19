@@ -33,7 +33,7 @@ def test_login_success(client):
     )
     resp = client.post(
         "/api/v1/auth/login",
-        params={"email": "carol@example.com", "password": "Secret1234"},
+        json={"email": "carol@example.com", "password": "Secret1234"},
     )
     assert resp.status_code == 200, resp.text
     data = resp.json()
@@ -45,9 +45,9 @@ def test_login_success(client):
 def test_login_invalid_credentials(client):
     resp = client.post(
         "/api/v1/auth/login",
-        params={"email": "none@example.com", "password": "wrong"},
+        json={"email": "none@example.com", "password": "wrong"},
     )
-    assert resp.status_code == 401
+    assert resp.status_code == 401, resp.text
 
 
 def test_me_requires_auth(client):
@@ -62,7 +62,7 @@ def test_refresh_issues_new_tokens(client):
     )
     login = client.post(
         "/api/v1/auth/login",
-        params={"email": "dave@example.com", "password": "Secret1234"},
+        json={"email": "dave@example.com", "password": "Secret1234"},
     )
     refresh_token = login.json()["refresh_token"]
     resp = client.post(

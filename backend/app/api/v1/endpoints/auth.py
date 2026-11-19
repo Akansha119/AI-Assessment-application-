@@ -8,7 +8,7 @@ from app.core.dependencies import get_current_user
 from app.core.security import create_access_token, create_refresh_token, decode_token
 from app.models.user import User
 from app.schemas.token import Token, TokenRefresh
-from app.schemas.user import UserCreate, UserOut
+from app.schemas.user import UserCreate, UserLogin, UserOut
 from app.services.auth_service import AuthService
 
 router = APIRouter()
@@ -27,8 +27,8 @@ def register(user_in: UserCreate, service: AuthService = Depends(get_auth_servic
 
 
 @router.post("/login", response_model=Token)
-def login(email: str, password: str, service: AuthService = Depends(get_auth_service)):
-    user = service.authenticate(email, password)
+def login(login_in: UserLogin, service: AuthService = Depends(get_auth_service)):
+    user = service.authenticate(login_in.email, login_in.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
