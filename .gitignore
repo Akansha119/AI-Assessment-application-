@@ -69,3 +69,6 @@ coverage/
 
 # Do not ignore .env.example (it is intentional and safe)
 !.env.example
+
+
+.run/
